@@ -55,6 +55,9 @@
     <!-- Volt CSS -->
     <link type="text/css" href="{{ asset('backend/assets') }}/css/volt.css" rel="stylesheet">
 
+    {{-- fontawesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
     @stack('css')
 </head>
 

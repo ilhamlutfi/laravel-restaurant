@@ -146,7 +146,7 @@
                 <div class="multi-level collapse " role="list" id="submenu-gallery" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
+                            <a class="nav-link" href="{{ route('panel.image.index') }}">
                                 <span class="sidebar-text">Image</span>
                             </a>
                         </li>
