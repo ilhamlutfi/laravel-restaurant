@@ -27,7 +27,7 @@
                 <p class="mb-0">Daftar Gambar Yummy Restoran</p>
             </div>
             <div>
-                <a href="{{ route('panel.image.create') }}" class="btn btn-outline-gray-600 d-inline-flex align-items-center">
+                <a href="{{ route('panel.image.create') }}" class="btn btn-warning d-inline-flex align-items-center">
                     <i class="fas fa-plus me-1"></i> Create Image
                 </a>
             </div>
@@ -55,24 +55,25 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->slug }}</td>
-                                <td>{{ $item->description }}</td>
+                                <td>{{ Str::limit($item->description, 50, '...') }}</td>
                                 <td width="20%">
                                     <img src="{{ asset('storage/' . $item->file . '') }}" target="_blank">
                                 </td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('panel.image.edit', $item->id) }}"
-                                            class="btn btn-sm btn-primary">
-                                            Edit
+                                        <a href="{{ route('panel.image.show', $item->uuid) }}" class="btn btn-sm btn-info">
+                                            <i class="fas fa-eye"></i>
                                         </a>
 
-                                        <form action="{{ route('panel.image.destroy', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
-                                                Delete
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('panel.image.edit', $item->uuid) }}"
+                                            class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <button class="btn btn-sm btn-danger" onclick="deleteImage(this)"
+                                            data-uuid="{{ $item->uuid }}">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -83,3 +84,54 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        const deleteImage = (e) => {
+            let uuid = e.getAttribute('data-uuid')
+
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: `/panel/image/${uuid}`,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(data) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: data.message,
+                                icon: "success",
+                                timer: 2500,
+                                showConfirmButton: false
+                            });
+
+                            window.location.reload();
+                        },
+                        error: function(data) {
+                            Swal.fire({
+                                title: "Failed!",
+                                text: "Your file has not been deleted.",
+                                icon: "error"
+                            });
+
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+@endpush
