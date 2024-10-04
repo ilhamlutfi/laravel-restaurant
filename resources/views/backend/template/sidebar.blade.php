@@ -98,19 +98,19 @@
                 <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
                     <ul class="flex-column nav">
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
+                            <a class="nav-link" href="{{ route('panel.menu.index') }}">
                                 <span class="sidebar-text">Menu</span>
                             </a>
                         </li>
 
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
+                            <a class="nav-link" href="#">
                                 <span class="sidebar-text">Chef</span>
                             </a>
                         </li>
 
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
+                            <a class="nav-link" href="#">
                                 <span class="sidebar-text">Event</span>
                             </a>
                         </li>
@@ -205,7 +205,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                <a href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     class="btn btn-secondary d-flex align-items-center justify-content-center btn-upgrade-pro">
                     <span class="sidebar-icon d-inline-flex align-items-center justify-content-center">
                         <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
