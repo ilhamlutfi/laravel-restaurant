@@ -8,6 +8,7 @@ use App\Http\Services\FileService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 
 class ChefController extends Controller
@@ -104,7 +105,7 @@ class ChefController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $uuid): RedirectResponse
+    public function destroy(string $uuid): JsonResponse
     {
         $getChef = DB::table('chefs')->where('uuid', $uuid)->firstOrFail();
 

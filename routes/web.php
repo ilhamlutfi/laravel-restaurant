@@ -2,13 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\ChefController;
-use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\MenuController;
+use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\ImageController;
+use App\Http\Controllers\Frontend\MainController;
+use App\Http\Controllers\Frontend\BookingController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', MainController::class);
+
+Route::post('booking', [BookingController::class, 'store'])->name('book.attempt');
 
 Route::prefix('panel')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {

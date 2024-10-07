@@ -34,6 +34,13 @@
         </div>
     </div>
 
+     @session('success')
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endsession
+
     {{-- table --}}
     <div class="card border-0 shadow mb-4">
         <div class="card-body">
@@ -110,7 +117,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "DELETE",
-                        url: `/panel/Event/${uuid}`,
+                        url: `/panel/event/${uuid}`,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
