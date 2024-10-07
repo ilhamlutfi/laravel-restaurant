@@ -1,7 +1,9 @@
 <nav class="navbar navbar-dark navbar-theme-primary px-4 col-12 d-lg-none">
     <a class="navbar-brand me-lg-5" href="{{ asset('backend') }}/index.html">
-        <img class="navbar-brand-dark" src="{{ asset('backend') }}/assets/img/brand/light.svg" alt="Volt logo" />
-        <img class="navbar-brand-light" src="{{ asset('backend') }}/assets/img/brand/dark.svg" alt="Volt logo" />
+        <img class="navbar-brand-dark" src="{{ asset('backend') }}/assets/img/brand/light.svg"
+            alt="Volt logo" />
+        <img class="navbar-brand-light" src="{{ asset('backend') }}/assets/img/brand/dark.svg"
+            alt="Volt logo" />
     </a>
     <div class="d-flex align-items-center">
         <button class="navbar-toggler d-lg-none collapsed" type="button" data-bs-toggle="collapse"
@@ -51,13 +53,14 @@
             <li class="nav-item">
                 <a href="#" class="nav-link d-flex align-items-center">
                     <span class="sidebar-icon">
-                        <img src="{{ asset('backend') }}/assets/img/brand/light.svg" height="20" width="20"
-                            alt="Volt Logo">
+                        <img src="{{ asset('backend') }}/assets/img/brand/light.svg" height="20"
+                            width="20" alt="Volt Logo">
                     </span>
                     <span class="mt-1 ms-1 sidebar-text">Yummy Panel</span>
                 </a>
             </li>
-            <li class="nav-item  active ">
+            <li
+                class="nav-item {{ request()->routeIs('panel.dashboard') ? 'active' : '' }}">
                 <a href="{{ route('panel.dashboard') }}" class="nav-link">
                     <span class="sidebar-icon">
                         <svg class="icon icon-xs me-2" fill="currentColor" viewBox="0 0 20 20"
@@ -72,7 +75,7 @@
 
             {{-- Master --}}
             <li class="nav-item">
-                <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
+                <span class="nav-link collapsed d-flex justify-content-between align-items-center"
                     data-bs-toggle="collapse" data-bs-target="#submenu-app">
                     <span>
                         <span class="sidebar-icon">
@@ -95,22 +98,24 @@
                     </span>
                 </span>
 
-                <div class="multi-level collapse " role="list" id="submenu-app" aria-expanded="false">
+                <div class="multi-level collapse {{ request()->routeIs('panel.menu.*', 'panel.chef.*', 'panel.event.*') ? 'show' : '' }}"
+                    role="list" id="submenu-app" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item ">
+                        <li
+                            class="nav-item {{ request()->routeIs('panel.menu.*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('panel.menu.index') }}">
                                 <span class="sidebar-text">Menu</span>
                             </a>
                         </li>
 
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
+                        <li class="nav-item {{ request()->routeIs('panel.chef.*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('panel.chef.index') }}">
                                 <span class="sidebar-text">Chef</span>
                             </a>
                         </li>
 
-                        <li class="nav-item ">
-                            <a class="nav-link" href="#">
+                        <li class="nav-item {{ request()->routeIs('panel.event.*') ? 'active' : '' }}">
+                            <a class="nav-link" href="{{ route('panel.event.index') }}">
                                 <span class="sidebar-text">Event</span>
                             </a>
                         </li>
@@ -143,16 +148,18 @@
                     </span>
                 </span>
 
-                <div class="multi-level collapse " role="list" id="submenu-gallery" aria-expanded="false">
+                <div class="multi-level collapse {{ request()->routeIs('panel.image.*') ? 'show' : '' }}"
+                    role="list" id="submenu-gallery" aria-expanded="false">
                     <ul class="flex-column nav">
-                        <li class="nav-item ">
+                        <li class="nav-item {{ request()->routeIs('panel.image.*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('panel.image.index') }}">
                                 <span class="sidebar-text">Image</span>
                             </a>
                         </li>
 
                         <li class="nav-item ">
-                            <a class="nav-link" href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
+                            <a class="nav-link"
+                                href="{{ asset('backend') }}/pages/tables/bootstrap-tables.html">
                                 <span class="sidebar-text">Video</span>
                             </a>
                         </li>
