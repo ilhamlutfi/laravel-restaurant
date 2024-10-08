@@ -5,6 +5,7 @@ use App\Http\Controllers\Backend\ChefController;
 use App\Http\Controllers\Backend\MenuController;
 use App\Http\Controllers\Backend\EventController;
 use App\Http\Controllers\Backend\ImageController;
+use App\Http\Controllers\Backend\TransactionController;
 use App\Http\Controllers\Frontend\MainController;
 use App\Http\Controllers\Frontend\BookingController;
 
@@ -26,6 +27,10 @@ Route::prefix('panel')->middleware('auth')->group(function () {
     ->names('panel.chef');
 
     Route::resource('event', EventController::class)->names('panel.event');
+
+    Route::resource('transaction', TransactionController::class)
+    ->except(['create', 'store', 'edit'])
+    ->names('panel.transaction');
 });
 
 Auth::routes();

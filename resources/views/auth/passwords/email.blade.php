@@ -19,7 +19,7 @@
             </p>
 
             <div class="card">
-                <div class="card-header">{{ __('Reset Passwordssss') }}</div>
+                <div class="card-header">{{ __('Reset Passwords') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
