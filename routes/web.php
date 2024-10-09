@@ -28,6 +28,7 @@ Route::prefix('panel')->middleware('auth')->group(function () {
 
     Route::resource('event', EventController::class)->names('panel.event');
 
+    Route::post('transaction/download', [TransactionController::class, 'download'])->name('panel.transaction.download');
     Route::resource('transaction', TransactionController::class)
     ->except(['create', 'store', 'edit'])
     ->names('panel.transaction');
