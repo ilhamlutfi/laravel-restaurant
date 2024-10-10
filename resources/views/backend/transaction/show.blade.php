@@ -100,6 +100,22 @@
                             target="_blank">
                     </td>
                 </tr>
+
+                @isset($review)
+                    <tr>
+                        <th>Rating</th>
+                        <td width="60%">
+                            : {{ $review->rate }}
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>Comment</th>
+                        <td width="60%">
+                            : {{ $review->comment }}
+                        </td>
+                    </tr>
+                @endisset
             </table>
 
             <div class="float-end mt-2">

@@ -6,12 +6,17 @@ use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Exports\TransactionExport;
 use App\Http\Controllers\Controller;
+use App\Http\Services\FileService;
 use App\Mail\BookingMailConfirm;
+use App\Models\Review;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
 
 class TransactionController extends Controller
 {
+    public function __construct(private FileService $fileService)
+    { }
+
     /**
      * Display a listing of the resource.
      */
@@ -29,8 +34,12 @@ class TransactionController extends Controller
      */
     public function show(string $uuid)
     {
+        $transaction = Transaction::where('uuid', $uuid)->firstOrFail();
+        $review = Review::where('transaction_id', $transaction->id)->first();
+
         return view('backend.transaction.show', [
-            'transaction' => Transaction::where('uuid', $uuid)->firstOrFail()
+            'transaction' => $transaction,
+            'review' => $review
         ]);
     }
 
@@ -65,7 +74,15 @@ class TransactionController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $getTransaction = Transaction::where('uuid', $id)->firstOrFail();
+
+        $this->fileService->delete($getTransaction->file);
+
+        $getTransaction->delete();
+
+        return response()->json([
+            'message' => 'Transaction has been deleted'
+        ]);
     }
 
     public function download(Request $request)

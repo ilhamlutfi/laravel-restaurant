@@ -1,6 +1,6 @@
 @extends('backend.template.main')
 
-@section('title', 'Transaction')
+@section('title', 'Review')
 
 @section('content')
     <div class="py-4">
@@ -17,34 +17,21 @@
                     </a>
                 </li>
                 <li class="breadcrumb-item"><a href="{{ route('panel.dashboard') }}">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Transaction</li>
+                <li class="breadcrumb-item active" aria-current="page">Review</li>
             </ol>
         </nav>
 
         <div class="d-flex justify-content-between w-100 flex-wrap">
             <div class="mb-3 mb-lg-0">
-                <h1 class="h4">Transaction</h1>
-                <p class="mb-0">Daftar Transaction Yummy Restoran</p>
-            </div>
-            <div>
-                <button type="button" data-bs-toggle="modal" data-bs-target="#downloadModal"
-                    class="btn btn-success d-inline-flex align-items-center text-white">
-                    <i class="fas fa-file-excel me-1"></i> Download
-                </button>
+                <h1 class="h4">Review</h1>
+                <p class="mb-0">Daftar Review Yummy Restoran</p>
             </div>
         </div>
     </div>
 
-    @session('success')
+     @session('success')
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
-    @endsession
-
-    @session('error')
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ session('error') }}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endsession
@@ -57,50 +44,26 @@
                     <thead class="thead-light">
                         <tr>
                             <th class="border-0 rounded-start">No</th>
-                            <th class="border-0">Name</th>
-                            <th class="border-0">Type</th>
-                            <th class="border-0">Amount</th>
-                            <th class="border-0">Status</th>
-                            <th class="border-0">File</th>
+                            <th class="border-0">Code</th>
+                            <th class="border-0">Rating</th>
+                            <th class="border-0">Created At</th>
                             <th class="border-0 rounded-end">Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($transactions as $item)
+                        @forelse ($reviews as $item)
                             <tr>
-                                <td>{{ ($transactions->currentPage() - 1) * $transactions->perPage() + $loop->iteration }}
-                                </td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->type }}</td>
-                                <td>Rp.
-                                    {{ number_format($item->amount, 0, ',', '.') }}
-                                </td>
-                                <td>
-                                    @if ($item->status == 'pending')
-                                        <span class="badge bg-warning">Pending</span>
-                                    @elseif($item->status == 'failed')
-                                        <span class="badge bg-danger">Failed</span>
-                                    @else
-                                        <span class="badge bg-success">Success</span>
-                                    @endif
-                                </td>
-                                <td width="20%">
-                                    <img src="{{ asset('storage/' . $item->file . '') }}" target="_blank">
-                                </td>
+                                <td>{{ ($reviews->currentPage() - 1) * $reviews->perPage() + $loop->iteration }}</td>
+                                <td>{{ $item->transaction->code }}</td>
+                                <td>{{ $item->rate }}</td>
+                                <td>{{ date('d-m-Y H:i', strtotime($item->created_at)) }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a href="{{ route('panel.transaction.show', $item->uuid) }}"
-                                            class="btn btn-sm btn-info">
+                                        <a href="{{ route('panel.review.show', $item->uuid) }}" class="btn btn-sm btn-info">
                                             <i class="fas fa-eye"></i>
                                         </a>
 
-                                        <button type="button" class="btn btn-sm btn-primary" onclick="confirmModal(this)"
-                                            data-uuid="{{ $item->uuid }}">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-
-                                        <button class="btn btn-sm btn-danger" onclick="deleteTransaction(this)"
-                                            data-uuid="{{ $item->uuid }}">
+                                        <button class="btn btn-sm btn-danger" onclick="deleteReview(this)" data-uuid="{{ $item->uuid }}">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </div>
@@ -116,18 +79,11 @@
 
                 {{-- pagination --}}
                 <div class="mt-3">
-                    {{ $transactions->links() }}
+                    {{ $reviews->links() }}
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- include download modal --}}
-    @include('backend.transaction._modal-download')
-
-    {{-- include confirm modal --}}
-    @include('backend.transaction._modal-confirm')
-
 @endsection
 
 @push('js')
@@ -135,7 +91,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        const deleteTransaction = (e) => {
+        const deleteReview = (e) => {
             let uuid = e.getAttribute('data-uuid')
 
             Swal.fire({
@@ -150,7 +106,7 @@
                 if (result.value) {
                     $.ajax({
                         type: "DELETE",
-                        url: `/panel/transaction/${uuid}`,
+                        url: `/panel/review/${uuid}`,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -177,14 +133,6 @@
                     });
                 }
             });
-        }
-
-        const confirmModal = (e) => {
-            let uuid = e.getAttribute('data-uuid')
-
-            // set action form
-            $('#confirmForm').attr('action', `/panel/transaction/${uuid}`)
-            $('#confirmModal').modal('show')
         }
     </script>
 @endpush

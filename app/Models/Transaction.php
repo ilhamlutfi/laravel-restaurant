@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Transaction extends Model
@@ -34,4 +35,8 @@ class Transaction extends Model
         });
     }
 
+    public function review(): HasOne
+    {
+        return $this->hasOne(Review::class);
+    }
 }

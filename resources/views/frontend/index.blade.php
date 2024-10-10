@@ -44,6 +44,7 @@
 <body class="index-page">
 
     <div class="swal" data-swal="{{ session('success') }}"></div>
+    <div class="swal-error" data-swal="{{ session('error') }}"></div>
 
     <header id="header" class="header d-flex align-items-center sticky-top">
         <div class="container position-relative d-flex align-items-center justify-content-between">
@@ -527,6 +528,18 @@
                 title: 'Success!',
                 text: swal,
                 icon: 'success',
+                timer: 2500,
+                showConfirmButton: false
+            })
+        }
+
+        const swalError = $('.swal-error').data('swal');
+
+        if (swalError) {
+            Swal.fire({
+                title: 'Error!',
+                text: swalError,
+                icon: 'error',
                 timer: 2500,
                 showConfirmButton: false
             })
